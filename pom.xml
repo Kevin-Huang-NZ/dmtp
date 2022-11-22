@@ -97,6 +97,15 @@
         </dependency>
         <!-- cache end -->
 
+        <!-- AC自动机 start -->
+        <!-- https://mvnrepository.com/artifact/org.ahocorasick/ahocorasick -->
+        <dependency>
+            <groupId>org.ahocorasick</groupId>
+            <artifactId>ahocorasick</artifactId>
+            <version>0.6.3</version>
+        </dependency>
+        <!-- AC自动机 end -->
+
         <!-- API doc start -->
         <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-webmvc-core -->
         <dependency>

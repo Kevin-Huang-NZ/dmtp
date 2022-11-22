@@ -31,7 +31,7 @@ public class SysRoleController {
 
   @Operation(summary = "分页查询角色")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:retrieve')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:retrieve')")
   @GetMapping("/")
   public Root search(
       @Parameter(name = "paginationIn", description = "分页信息，包含页码(number)和页大小(size)") @Validated
@@ -44,7 +44,7 @@ public class SysRoleController {
 
   @Operation(summary = "使用ID查询角色")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:retrieve')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:retrieve')")
   @GetMapping("/{id}")
   public Root findOne(
       @Parameter(name = "id", description = "角色的ID") @PathVariable @Min(0l) Long id) {
@@ -58,7 +58,7 @@ public class SysRoleController {
 
   @Operation(summary = "新建角色")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:create')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:create')")
   @PostMapping("/create")
   public Root create(@RequestBody @Validated(value = SysRole.Create.class) SysRole entity)
       throws CustomizedException {
@@ -67,7 +67,7 @@ public class SysRoleController {
 
   @Operation(summary = "更新角色")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:update')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:update')")
   @PostMapping("/save")
   public Root update(@RequestBody @Validated(value = SysRole.Update.class) SysRole entity)
       throws CustomizedException {
@@ -76,7 +76,7 @@ public class SysRoleController {
 
   @Operation(summary = "使用ID删除角色")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:delete')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:delete')")
   @PostMapping("/{id}/del")
   public Root delete(
       @Parameter(name = "id", description = "角色的ID") @PathVariable @Min(0l) Long id) {
@@ -86,7 +86,7 @@ public class SysRoleController {
 
   @Operation(summary = "为角色增加某个权限")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:add-permission')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:add-permission')")
   @PostMapping("/{id}/add-perms/{permissionId}")
   public Root addPermission(
       @Parameter(name = "id", description = "角色的ID") @PathVariable @Min(0l) Long id,
@@ -98,7 +98,7 @@ public class SysRoleController {
 
   @Operation(summary = "删除角色的某个权限")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
-  @PreAuthorize("hasAnyAuthority('sys-roles:*', 'sys-roles:remove-permission')")
+  @PreAuthorize("hasAnyAuthority('sys-role:*', 'sys-role:remove-permission')")
   @PostMapping("/{id}/remove-perms/{permissionId}")
   public Root removePermission(
       @Parameter(name = "id", description = "角色的ID") @PathVariable @Min(0l) Long id,

@@ -23,7 +23,7 @@ public interface UserService {
 
   List<SysPermission> getUserPermissions(List<Long> roleIds);
 
-  User createUser(User entity) throws CustomizedException;
+  User createUser(User entity, Long fileId) throws CustomizedException;
 
-  User updateUser(User entity) throws CustomizedException;
+  User updateUser(User entity, Long fileId) throws CustomizedException;
 }

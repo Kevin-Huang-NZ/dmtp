@@ -1,9 +1,6 @@
 package cn.gov.mca.dmtp.core.service.impl;
 
-import cn.gov.mca.dmtp.core.dao.SysPermissionRepository;
-import cn.gov.mca.dmtp.core.dao.SysRoleRepository;
-import cn.gov.mca.dmtp.core.dao.UserRepository;
-import cn.gov.mca.dmtp.core.dao.UserRoleRepository;
+import cn.gov.mca.dmtp.core.dao.*;
 import cn.gov.mca.dmtp.core.model.SysPermission;
 import cn.gov.mca.dmtp.core.model.SysRole;
 import cn.gov.mca.dmtp.core.model.User;
@@ -31,6 +28,8 @@ public class UserServiceImpl implements UserService {
   private SysRoleRepository roleRepository;
   @Autowired
   private SysPermissionRepository permissionRepository;
+  @Autowired
+  private FileUploadRepository fileUploadRepository;
   @Autowired
   private PasswordEncoderUtil passwordEncoderUtil;
 
@@ -73,8 +72,9 @@ public class UserServiceImpl implements UserService {
     return permissionRepository.getByRoleIds(roleIds);
   }
 
+  @Transactional
   @Override
-  public User createUser(User entity) throws CustomizedException {
+  public User createUser(User entity, Long fileId) throws CustomizedException {
     var checkExist = userRepository.findByUniqueKey(entity.getPhone(), 0l);
     if (checkExist.isPresent()) {
       throw new CustomizedException(PredefinedError.DATA_NOT_EXIST, "手机号重复，保存失败。");
@@ -83,19 +83,28 @@ public class UserServiceImpl implements UserService {
       var encodedPassword = passwordEncoderUtil.getPasswordEncoder().encode(entity.getPassword());
       entity.setPassword(encodedPassword);
       log.debug("User password after encoding: {}", entity.getPassword());
-      return userRepository.save(entity);
+      var user = userRepository.save(entity);
+      if (fileId != null) {
+        fileUploadRepository.updateRowId(fileId, user.getId());
+      }
+      return user;
     }
   }
 
+  @Transactional
   @Override
-  public User updateUser(User entity) throws CustomizedException {
+  public User updateUser(User entity, Long fileId) throws CustomizedException {
     var checkExist = userRepository.findByUniqueKey(entity.getPhone(), entity.getId());
     if (checkExist.isPresent()) {
       throw new CustomizedException(PredefinedError.DATA_NOT_EXIST, "手机号重复，保存失败。");
     } else {
       var encodedPassword = passwordEncoderUtil.getPasswordEncoder().encode(entity.getPassword());
       entity.setPassword(encodedPassword);
-      return userRepository.save(entity);
+      var user = userRepository.save(entity);
+      if (fileId != null) {
+        fileUploadRepository.updateRowId(fileId, user.getId());
+      }
+      return user;
     }
   }
 }

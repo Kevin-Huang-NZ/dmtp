@@ -9,6 +9,7 @@ import cn.gov.mca.dmtp.error.CustomizedException;
 import cn.gov.mca.dmtp.error.PredefinedError;
 import cn.gov.mca.dmtp.web.request.PaginationIn;
 import cn.gov.mca.dmtp.web.response.Root;
+import cn.gov.mca.dmtp.web.vo.UserVo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -60,18 +61,18 @@ public class UserController {
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
   @PreAuthorize("hasAnyAuthority('user:*', 'user:create')")
   @PostMapping("/create")
-  public Root create(@RequestBody @Validated(value = User.Create.class) User entity)
+  public Root create(@RequestBody @Validated(value = User.Create.class) UserVo entity)
       throws CustomizedException {
-    return Root.create(userService.createUser(entity));
+    return Root.create(userService.createUser(entity.getUser(), entity.getFileId()));
   }
 
   @Operation(summary = "更新用户")
   @SecurityRequirement(name = GlobalConst.SECURITY_SCHEMES_KEY)
   @PreAuthorize("hasAnyAuthority('user:*', 'user:update')")
   @PostMapping("/update")
-  public Root update(@RequestBody @Validated(value = User.Update.class) User entity)
+  public Root update(@RequestBody @Validated(value = User.Update.class) UserVo entity)
       throws CustomizedException {
-    return Root.create(userService.updateUser(entity));
+    return Root.create(userService.updateUser(entity.getUser(), entity.getFileId()));
   }
 
   @Operation(summary = "使用ID删除用户")
