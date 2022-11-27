@@ -48,6 +48,6 @@ public class FileUpload implements Serializable {
   @NotBlank(message = "文件名不能为空。")
   private String fileName;
 
-  @Pattern(regexp = "^[0,1,2]$", message = "删除状态选择范围：0-未删除；1-逻辑删除；2-物理删除。")
+  @Pattern(regexp = "^[012]$", message = "删除状态选择范围：0-未删除；1-逻辑删除；2-物理删除。")
   private String deleteStatus = "0";
 }
